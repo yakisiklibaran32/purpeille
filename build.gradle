@@ -42,14 +42,17 @@ dependencies {
     // REI Compatibility
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${libs.versions.rei.get()}", {
         exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
     }
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${libs.versions.rei.get()}", {
         exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
     }
 
     // Patchouli
     modImplementation "vazkii.patchouli:Patchouli:${libs.versions.patchouli.get()}", {
         exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
     }
 }
 
