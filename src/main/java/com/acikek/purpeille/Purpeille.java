@@ -13,22 +13,23 @@ import com.acikek.purpeille.recipe.warpath.WarpathCreateRecipe;
 import com.acikek.purpeille.recipe.warpath.WarpathRemoveRecipe;
 import com.acikek.purpeille.sound.ModSoundEvents;
 import com.acikek.purpeille.world.gen.EndCityProximityPlacementModifier;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.quiltmc.loader.api.ModContainer;
+import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
+import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
+import org.quiltmc.qsl.item.group.api.QuiltItemGroup;
 
 public class Purpeille implements ModInitializer {
 
     public static final String ID = "purpeille";
 
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(id("main"))
-            .icon(() -> new ItemStack(ModItems.PURPEILLE_INGOT))
-            .build();
+    public static final ItemGroup ITEM_GROUP = QuiltItemGroup.createWithIcon(
+            id("main"),
+            ModItems.PURPEILLE_INGOT::getDefaultStack
+    );
 
     public static Identifier id(String key) {
         return new Identifier(ID, key);
@@ -37,20 +38,29 @@ public class Purpeille implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(ID);
 
     @Override
-    public void onInitialize() {
+    public void onInitialize(ModContainer mod) {
         LOGGER.info("Embark on a journey of allegiance");
         ModBlocks.register();
+        System.out.println("blocks");
         ModItems.register();
+        System.out.println("items");
         ModAttributes.register();
+        System.out.println("attributes");
         ModCriteria.register();
+        System.out.println("criteria");
         ModSoundEvents.register();
+        System.out.println("sound");
         AncientGatewayBlockEntity.register();
         AncientOvenBlockEntity.register();
+        System.out.println("BEs");
         WarpathCreateRecipe.register();
         WarpathRemoveRecipe.register();
         AncientOvenRecipe.register();
+        System.out.println("recipes");
         EndCityProximityPlacementModifier.register();
+        System.out.println("placement modifier");
         PurpurRemnants.build();
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> WarpathCommand.register(dispatcher));
+        System.out.println("remnants");
+        CommandRegistrationCallback.EVENT.register((dispatcher, integrated, dedicated) -> WarpathCommand.register(dispatcher));
     }
 }

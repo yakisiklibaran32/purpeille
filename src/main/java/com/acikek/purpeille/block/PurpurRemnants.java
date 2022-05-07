@@ -9,20 +9,20 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.structure.rule.BlockMatchRuleTest;
+import net.minecraft.util.Holder;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.YOffset;
+import net.minecraft.world.gen.decorator.CountPlacementModifier;
+import net.minecraft.world.gen.decorator.HeightRangePlacementModifier;
+import net.minecraft.world.gen.decorator.InSquarePlacementModifier;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.PlacedFeature;
-import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
-import net.minecraft.world.gen.placementmodifier.HeightRangePlacementModifier;
-import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
+import net.minecraft.world.gen.feature.util.ConfiguredFeatureUtil;
+import net.minecraft.world.gen.feature.util.PlacedFeatureUtil;
 
 import java.util.Arrays;
 
@@ -33,7 +33,9 @@ public class PurpurRemnants {
             .strength(7.0f, 50.0f);
 
     public static void build(int size, int count, int distance, String name) {
-        ConfiguredFeature<?, ?> configuredFeature = new ConfiguredFeature<>(
+        Identifier id = Purpeille.id(name);
+        Holder<ConfiguredFeature<OreFeatureConfig, ?>> configuredFeature = ConfiguredFeatureUtil.register(
+                id.toString(),
                 Feature.ORE,
                 new OreFeatureConfig(
                         new BlockMatchRuleTest(Blocks.END_STONE),
@@ -41,18 +43,16 @@ public class PurpurRemnants {
                         size, 1.0f
                 )
         );
-        PlacedFeature placedFeature = new PlacedFeature(
-                RegistryEntry.of(configuredFeature),
+        PlacedFeatureUtil.register(
+                id.toString(),
+                configuredFeature,
                 Arrays.asList(
-                        CountPlacementModifier.of(count),
-                        SquarePlacementModifier.of(),
-                        HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(64)),
+                        CountPlacementModifier.create(count),
+                        InSquarePlacementModifier.getInstance(),
+                        HeightRangePlacementModifier.createUniform(YOffset.getBottom(), YOffset.fixed(64)),
                         new EndCityProximityPlacementModifier(distance)
                 )
         );
-        Identifier id = Purpeille.id(name);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, id, configuredFeature);
-        Registry.register(BuiltinRegistries.PLACED_FEATURE, id, placedFeature);
         BiomeModifications.addFeature(
                 BiomeSelectors.foundInTheEnd(),
                 GenerationStep.Feature.UNDERGROUND_ORES,

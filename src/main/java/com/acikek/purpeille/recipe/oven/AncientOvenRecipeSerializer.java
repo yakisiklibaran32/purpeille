@@ -1,14 +1,15 @@
 package com.acikek.purpeille.recipe.oven;
 
 import com.google.gson.*;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
 import net.minecraft.util.Identifier;
+import org.quiltmc.qsl.recipe.api.serializer.QuiltRecipeSerializer;
 
-public class AncientOvenRecipeSerializer implements RecipeSerializer<AncientOvenRecipe> {
+public class AncientOvenRecipeSerializer implements QuiltRecipeSerializer<AncientOvenRecipe> {
 
     public static class JsonFormat {
         JsonObject input;
@@ -38,6 +39,23 @@ public class AncientOvenRecipeSerializer implements RecipeSerializer<AncientOven
             result[i] = ShapedRecipe.outputFromJson(stack.getAsJsonObject());
         }
         return new AncientOvenRecipe(input, recipe.damage, recipe.cook_time, result, id);
+    }
+
+    @Override
+    public JsonObject toJson(AncientOvenRecipe recipe) {
+        JsonObject obj = new JsonObject();
+        obj.add("type", new JsonPrimitive(AncientOvenRecipe.ID.toString()));
+        obj.add("input", recipe.input().toJson());
+        obj.add("damage", new JsonPrimitive(recipe.damage()));
+        obj.add("cook_time", new JsonPrimitive(recipe.cookTime()));
+        JsonArray resultArray = new JsonArray();
+        for (ItemStack result : recipe.result()) {
+            ItemStack.CODEC.encode(result, JsonOps.INSTANCE, JsonOps.INSTANCE.empty())
+                    .result()
+                    .ifPresent(resultArray::add);
+        }
+        obj.add("result", resultArray);
+        return obj;
     }
 
     @Override
