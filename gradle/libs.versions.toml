@@ -2,7 +2,7 @@
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
 minecraft = "1.18.2"
 quilt_mappings = "1.18.2+build.22"
-quilt_loader = "0.16.0-beta.11"
+quilt_loader = "0.16.0-beta.16"
 
 quilted_fabric_api = "1.0.0-beta.10+0.51.1-1.18.2"
 
@@ -18,13 +18,13 @@ quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loade
 
 quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted_fabric_api" }
 
-voidcrafting = { module = "maven.modrinth:voidcrafting", version.ref = "voidcrafting" }
-cmods = { module = "maven.modrinth:cmods", version.ref = "cmods" }
+#voidcrafting = { module = "maven.modrinth:voidcrafting", version.ref = "voidcrafting" }
+#cmods = { module = "maven.modrinth:cmods", version.ref = "cmods" }
 
-rei_api = { module = "me.shedaniel:RoughlyEnoughItems-api-fabric", version.ref = "rei" }
-rei = { module = "me.shedaniel:RoughlyEnoughItems-fabric", version.ref = "rei" }
+#rei_api = { module = "me.shedaniel:RoughlyEnoughItems-api-fabric", version.ref = "rei" }
+#rei = { module = "me.shedaniel:RoughlyEnoughItems-fabric", version.ref = "rei" }
 
-patchouli = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouli" }
+#patchouli = { module = "vazkii.patchouli:Patchouli", version.ref = "patchouli" }
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 # [bundles]

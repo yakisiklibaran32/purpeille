@@ -40,8 +40,12 @@ dependencies {
     modImplementation include("maven.modrinth:cmods:${libs.versions.cmods.get()}")
 
     // REI Compatibility
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${libs.versions.rei.get()}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${libs.versions.rei.get()}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${libs.versions.rei.get()}", {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${libs.versions.rei.get()}", {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
     // Patchouli
     modImplementation "vazkii.patchouli:Patchouli:${libs.versions.patchouli.get()}", {
